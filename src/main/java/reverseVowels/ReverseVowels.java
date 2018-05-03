@@ -1,9 +1,9 @@
-package reverseVowels;
+package com.evosoft.reversevowels;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.function.IntConsumer;
 
 /**
  * Write a function that takes a string as input and reverse only the vowels of a string.
@@ -21,6 +21,7 @@ import java.util.function.IntConsumer;
 public class ReverseVowels {
 
     public String reverseVowels(String input) {
+
         List<Character> vowels = Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U');
         StringBuilder sb = new StringBuilder(input);
         char[] revWord = sb.reverse().toString().toCharArray();
@@ -28,9 +29,9 @@ public class ReverseVowels {
         List<Integer> indexCounter = new ArrayList<>();
 
         for (int i = 0; i < word.length; i++) {
-            if (vowels.contains(word[i])){
-                for (int j = 0; j < revWord.length; j++){
-                    if (vowels.contains(revWord[j]) && !indexCounter.contains(j)){
+            if (vowels.contains(word[i])) {
+                for (int j = 0; j < revWord.length; j++) {
+                    if (vowels.contains(revWord[j]) && !indexCounter.contains(j)) {
                         word[i] = revWord[j];
                         indexCounter.add(j);
                         break;
@@ -39,33 +40,25 @@ public class ReverseVowels {
             }
         }
         input = String.valueOf(word);
-        return input;
+
+        return changeVowels(input, vowels);
     }
 
-    public String reverseVowels1(String input) {
-        List<Character> vowels = Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U');
-        input.chars().forEach(changeLetters(vowels, input));
-        return input;
-    }
-
-    public IntConsumer changeLetters(List<Character> vowels, String input) {
-        StringBuilder sb = new StringBuilder(input);
-        char[] revWord = sb.reverse().toString().toCharArray();
-        char[] word = input.toCharArray();
-        List<Integer> indexCounter = new ArrayList<>();
-        for (int i = 0; i < word.length; i++) {
-            if (vowels.contains(word[i])){
-                for (int j = 0; j < revWord.length; j++){
-                    if (vowels.contains(revWord[j]) && !indexCounter.contains(j)){
-                        word[i] = revWord[j];
-                        indexCounter.add(j);
-                        break;
-                    }
-                }
+    String changeVowels(String input, List<Character> vowels) {
+        char[] chars = input.toCharArray();
+        List<Character> letters = new ArrayList<>();
+        List<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < input.length(); i++) {
+            if (vowels.contains(chars[i])) {
+                letters.add(chars[i]);
+                indexes.add(i);
             }
         }
-        input = String.valueOf(word);
-        System.out.println(input);
-        return null;
+        Collections.reverse(letters);
+        for (int i = 0; i < indexes.size(); i++) {
+            chars[indexes.get(i)] = letters.get(i);
+        }
+        return String.valueOf(chars);
     }
+
 }
